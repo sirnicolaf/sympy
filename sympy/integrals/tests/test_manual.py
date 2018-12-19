@@ -474,3 +474,17 @@ def test_issue_15471():
     f = log(x)*cos(log(x))/x**(S(3)/4)
     F = -128*x**(1/4)*sin(log(x))/289 + 240*x**(1/4)*cos(log(x))/289 + (16*x**(1/4)*sin(log(x))/17 + 4*x**(1/4)*cos(log(x))/17)*log(x)
     assert manualintegrate(f, x) == F and F.diff(x).equals(f)
+
+    
+def test_issue15494():
+    from sympy.abc import t, s
+    
+    Z0 = Function('Z0')
+    Z1 = Function('Z1')
+
+    k01, k10= symbols('k01 k10', real=True, positive=True)
+
+    integrand = (exp(s/2)-2*exp(1.6*s)+exp(s))*exp(s)
+    solution  = integrate(integrand, s)
+    
+    assert solution == 0.666666666666667*exp(1.5*s) + 0.5*exp(2.0*s) - 0.769230769230769*exp(2.6*s)
